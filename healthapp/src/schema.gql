@@ -1,0 +1,110 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Beacon {
+  hCenter: HealthCenter
+
+  """DB Entity Id"""
+  id: Int!
+  isEmergencyVehicule: Boolean!
+  uuid: String!
+}
+
+input CreateDoctorInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Doctor {
+  healthCenter: HealthCenter!
+
+  """DB Id"""
+  id: Int!
+  medAppointments: [MedAppointment!]!
+  password: String!
+  username: String!
+}
+
+type HealthCenter {
+  beacon: Beacon!
+  doctors: [Doctor!]!
+
+  """DB Entity Id"""
+  id: Int!
+  isHospital: String!
+  mapUrl: String!
+  medAppointments: [MedAppointment!]!
+  personCounter: Float!
+}
+
+type MedAppointment {
+  center: HealthCenter!
+  date: String!
+  doctor: Doctor!
+  ended: Boolean!
+  hour: Float!
+
+  """DB Entity Id"""
+  id: Int!
+  justificant: String
+  minute: Float!
+  pacient: User!
+  place: String!
+  recipe: String
+  userRegistered: Boolean!
+}
+
+type Mutation {
+  addOneVisitor(healthCenter: String!): HealthCenter!
+  createDoctor(createDoctorInput: CreateDoctorInput!): Doctor!
+  finishAppointment(id: Int!, justificant: String!, recipe: String!): MedAppointment!
+  registerToken(registerTokenInput: RegisterTokenInput!): User!
+  removeDoctor(id: Int!): Doctor!
+  removeOneVisitor(healthCenter: String!): HealthCenter!
+  updateDoctor(updateDoctorInput: UpdateDoctorInput!): Doctor!
+}
+
+type Query {
+  beaconOne(beaconUUID: String!): Beacon
+  beacons: [Beacon!]!
+  callEmergency(username: String!): User
+  doctor(username: String!): Doctor!
+  getNotFinishedAppointment(username: String!): [MedAppointment!]!
+  getVisitors(doctorUser: String!): Float
+  healthCenter(id: Int!): HealthCenter
+  medAppointment(beaconUUID: String!, username: String!): MedAppointment
+  medAppointmentAll: [MedAppointment!]!
+  medAppointmentOne(id: Int!): MedAppointment
+  numberOfVisitorInQueue(id: Int!): Float!
+  user(username: String!): User
+  users: [User!]!
+}
+
+input RegisterTokenInput {
+  expoPushToken: String
+
+  """User password"""
+  password: String
+  username: String!
+}
+
+input UpdateDoctorInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+type User {
+  city: String!
+  emergencyContacts: [User!]!
+  expoPushToken: String
+  hospitalData: String
+
+  """DB Entity Id"""
+  id: Int!
+  inHospital: Boolean!
+  medAppointment: [MedAppointment!]!
+  partner: [User!]
+  username: String!
+}
